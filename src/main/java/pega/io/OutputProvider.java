@@ -1,5 +1,8 @@
 package pega.io;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public interface OutputProvider {
-    void setOutput(int[] output);
+    void write(int[] output) throws IOException;
 }

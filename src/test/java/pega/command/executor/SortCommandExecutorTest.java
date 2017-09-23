@@ -10,7 +10,6 @@ import pega.command.SortCommand;
 import pega.io.InputProvider;
 import pega.io.OutputProvider;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import static org.mockito.BDDMockito.given;
@@ -40,7 +39,7 @@ public class SortCommandExecutorTest {
         executor.execute(command);
 
         verify(outputProvider, times(1))
-            .setOutput(eq(output));
+            .write(eq(output));
     }
 
     @DataProvider

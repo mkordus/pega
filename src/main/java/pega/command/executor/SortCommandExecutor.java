@@ -12,6 +12,6 @@ public class SortCommandExecutor {
 
         Arrays.parallelSort(input);
 
-        command.getOutputProvider().setOutput(input);
+        command.getOutputProvider().write(input);
     }
 }

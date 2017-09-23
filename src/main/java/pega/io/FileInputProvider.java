@@ -10,7 +10,6 @@ public class FileInputProvider implements InputProvider {
     private final int intSize = 4;
 
     public FileInputProvider(File file, Integer startPosition, Integer numberOfElementsToRead) {
-
         this.file = file;
         this.startPosition = startPosition;
         this.numberOfElementsToRead = numberOfElementsToRead;
