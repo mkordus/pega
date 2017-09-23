@@ -10,6 +10,9 @@ import pega.command.SortCommand;
 import pega.io.InputProvider;
 import pega.io.OutputProvider;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
@@ -30,7 +33,7 @@ public class SortCommandExecutorTest {
 
     @Test
     @UseDataProvider("dataProvider")
-    public void executeTest(int[] input, int[] output) {
+    public void executeTest(int[] input, int[] output) throws IOException {
         given(inputProvider.getInput())
             .willReturn(input);
 
