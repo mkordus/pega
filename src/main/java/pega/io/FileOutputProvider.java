@@ -7,11 +7,9 @@ import java.io.RandomAccessFile;
 public class FileOutputProvider implements OutputProvider {
 
     private final File file;
-    private final boolean append;
 
-    public FileOutputProvider(File file, boolean append) {
+    public FileOutputProvider(File file) {
         this.file = file;
-        this.append = append;
     }
 
     @Override
@@ -20,11 +18,7 @@ public class FileOutputProvider implements OutputProvider {
             file,
             "rw"
         )) {
-            if (append) {
-                outputFile.seek(outputFile.length());
-            } else {
-                outputFile.setLength(0);
-            }
+            outputFile.setLength(0);
 
             for (int element : output) {
                 outputFile.writeInt(element);

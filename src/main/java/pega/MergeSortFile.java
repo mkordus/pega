@@ -43,10 +43,7 @@ public class MergeSortFile {
                 0,
                 inputSize
             ),
-            new FileOutputProvider(
-                outputFile,
-                false
-            )
+            new FileOutputProvider(outputFile)
         );
 
         SortCommandExecutor executor = new SortCommandExecutor();

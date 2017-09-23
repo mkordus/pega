@@ -1,9 +1,7 @@
 package pega.io;
 
-import java.io.EOFException;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public interface IterableInputProvider {
+public interface IterableInputProvider extends AutoCloseable {
     int getNext() throws IOException;
 }

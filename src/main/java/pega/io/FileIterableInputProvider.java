@@ -2,7 +2,7 @@ package pega.io;
 
 import java.io.*;
 
-public class FileIterableInputProvider implements IterableInputProvider, AutoCloseable {
+public class FileIterableInputProvider implements IterableInputProvider {
 
     private final File file;
     private final int startPosition;
