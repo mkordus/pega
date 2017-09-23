@@ -11,3 +11,22 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
+
+task randomFile(type:JavaExec) {
+    dependsOn 'build'
+
+    String intFilePath = 'intFile'
+    if (project.hasProperty('intFilePath')) {
+        intFilePath = project.getProperty('intFilePath')
+    }
+
+    String intFileSize = ((int)Math.pow(2, 28)).toString()
+    if (project.hasProperty('size')) {
+        intFileSize = project.getProperty('size')
+    }
+
+    args = [intFilePath, intFileSize]
+
+    main = 'pega.RandomIntFileGenerator'
+    classpath = sourceSets.main.runtimeClasspath
+}
