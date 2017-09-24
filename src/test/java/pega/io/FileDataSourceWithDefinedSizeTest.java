@@ -11,12 +11,11 @@ import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.util.stream.IntStream;
 
 import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class FileIterableInputProviderTest {
+public class FileDataSourceWithDefinedSizeTest {
 
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
@@ -37,28 +36,8 @@ public class FileIterableInputProviderTest {
     }
 
     @Test
-    public void testGetAll() throws Exception {
-        int[] output = new int[10];
-        int index = 0;
-
-        FileIterableInputProvider input;
-        try {
-            input = new FileIterableInputProvider(file);
-            while(true) {
-                output[index++] = input.getNext();
-            }
-        } catch (EOFException ignored) {
-        }
-
-        assertArrayEquals(
-            IntStream.rangeClosed(1, 10).toArray(),
-            output
-        );
-    }
-
-    @Test
     public void testGetDataToMiddle() throws IOException {
-        FileIterableInputProvider provider = new FileIterableInputProvider(
+        FileDataSourceWithDefinedSize provider = new FileDataSourceWithDefinedSize(
             file,
             0,
             5
@@ -80,7 +59,7 @@ public class FileIterableInputProviderTest {
 
     @Test
     public void testGetDataFromMiddle() throws IOException {
-        FileIterableInputProvider provider = new FileIterableInputProvider(
+        FileDataSourceWithDefinedSize provider = new FileDataSourceWithDefinedSize(
             file,
             5,
             5

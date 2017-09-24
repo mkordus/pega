@@ -1,36 +1,36 @@
 package pega.command;
 
-import pega.io.InputProvider;
-import pega.io.IterableInputProvider;
-import pega.io.OutputProvider;
+import pega.io.DataSource;
+import pega.io.DataSourceWithDefinedSize;
+import pega.io.DataDestination;
 
 public class SortCommand implements Command {
 
-    private InputProvider inputProvider;
-    private OutputProvider outputProvider;
+    private DataSourceWithDefinedSize input;
+    private DataDestination output;
 
     public SortCommand(
-        InputProvider inputProvider,
-        OutputProvider outputProvider
+        DataSourceWithDefinedSize input,
+        DataDestination output
     ) {
-        if (inputProvider == null || outputProvider == null) {
+        if (input == null || output == null) {
             throw new IllegalArgumentException();
         }
 
-        this.inputProvider = inputProvider;
-        this.outputProvider = outputProvider;
+        this.input = input;
+        this.output = output;
     }
 
-    public InputProvider getInputProvider() {
-        return inputProvider;
+    public DataSourceWithDefinedSize getInputProvider() {
+        return input;
     }
 
-    public OutputProvider getOutputProvider() {
-        return outputProvider;
+    public DataDestination getOutput() {
+        return output;
     }
 
     @Override
-    public IterableInputProvider getResult() {
-        return outputProvider.createInput();
+    public DataSource getResult() {
+        return output.createDataSource();
     }
 }

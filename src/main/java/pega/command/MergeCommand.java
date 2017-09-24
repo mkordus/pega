@@ -1,34 +1,34 @@
 package pega.command;
 
-import pega.io.IterableInputProvider;
-import pega.io.IterableOutputProvider;
+import pega.io.DataSource;
+import pega.io.DataDestination;
 
 public class MergeCommand implements Command {
 
-    private IterableInputProvider fistInputProvider;
-    private IterableInputProvider secondInputProvider;
-    private IterableOutputProvider outputProvider;
+    private DataSource fistDataSource;
+    private DataSource secondDataSource;
+    private DataDestination output;
 
-    public MergeCommand(IterableInputProvider fistInputProvider, IterableInputProvider secondInputProvider, IterableOutputProvider outputProvider) {
-        this.fistInputProvider = fistInputProvider;
-        this.secondInputProvider = secondInputProvider;
-        this.outputProvider = outputProvider;
+    public MergeCommand(DataSource fistDataSource, DataSource secondInputProvider, DataDestination output) {
+        this.fistDataSource = fistDataSource;
+        this.secondDataSource = secondInputProvider;
+        this.output = output;
     }
 
-    public IterableInputProvider getFistInputProvider() {
-        return fistInputProvider;
+    public DataSource getFistDataSource() {
+        return fistDataSource;
     }
 
-    public IterableInputProvider getSecondInputProvider() {
-        return secondInputProvider;
+    public DataSource getSecondDataSource() {
+        return secondDataSource;
     }
 
-    public IterableOutputProvider getOutputProvider() {
-        return outputProvider;
+    public DataDestination getOutput() {
+        return output;
     }
 
     @Override
-    public IterableInputProvider getResult() {
-        return outputProvider.createInput();
+    public DataSource getResult() {
+        return output.createDataSource();
     }
 }

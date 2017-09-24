@@ -2,8 +2,8 @@ package pega.io;
 
 import java.io.IOException;
 
-public interface IterableOutputProvider {
+public interface DataDestination {
     void write(int output) throws IOException;
     void close() throws IOException;
-    IterableInputProvider createInput();
+    DataSource createDataSource();
 }

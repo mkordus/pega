@@ -16,7 +16,7 @@ import java.util.Arrays;
 import static org.junit.Assert.assertArrayEquals;
 
 @RunWith(MockitoJUnitRunner.class)
-public class FileOutputProviderTest {
+public class FileDataDestinationTest {
 
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
@@ -28,24 +28,19 @@ public class FileOutputProviderTest {
     }
 
     @Test
-    public void testWriteToEmptyFileWithoutAppend() throws IOException {
-        int[] input = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-
-        new FileOutputProvider(file)
-            .write(input);
-
-        assertArrayEquals(input, readFile());
-    }
-
-    @Test
     public void testWriteToExistingFile() throws IOException {
-        int[] input = {1, 2, 3};
+        int[] input = {6, 7, 8};
+        int[] expectedOutput = {1, 2, 3, 4, 5, 6, 7, 8};
         fillFile();
 
-        new FileOutputProvider(file)
-            .write(input);
+        FileDataDestination provider = new FileDataDestination(file);
+        for (int element : input) {
+            provider.write(element);
+        }
 
-        assertArrayEquals(input, readFile());
+        provider.close();
+
+        assertArrayEquals(expectedOutput, readFile());
     }
 
     private void fillFile() throws IOException {

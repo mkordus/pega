@@ -4,12 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-public class FileIterableOutputProvider implements IterableOutputProvider {
+public class FileDataDestination implements DataDestination {
 
     private final File file;
     private RandomAccessFile output;
 
-    public FileIterableOutputProvider(File file) {
+    public FileDataDestination(File file) {
         this.file = file;
     }
 
@@ -31,7 +31,7 @@ public class FileIterableOutputProvider implements IterableOutputProvider {
     }
 
     @Override
-    public IterableInputProvider createInput() {
-        return new FileIterableInputProvider(file);
+    public DataSource createDataSource() {
+        return new FileDataSource(file);
     }
 }

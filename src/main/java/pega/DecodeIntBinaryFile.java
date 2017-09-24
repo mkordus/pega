@@ -1,7 +1,7 @@
 package pega;
 
-import pega.io.FileIterableInputProvider;
-import pega.io.IterableInputProvider;
+import pega.io.FileDataSource;
+import pega.io.DataSource;
 
 import java.io.*;
 
@@ -11,7 +11,7 @@ public class DecodeIntBinaryFile {
         File input = new File(args[0]);
         File output = new File(args[1]);
 
-        IterableInputProvider inputProvider = new FileIterableInputProvider(input);
+        DataSource inputProvider = new FileDataSource(input);
         RandomAccessFile randomAccessFile = new RandomAccessFile(output, "rw");
 
         try {

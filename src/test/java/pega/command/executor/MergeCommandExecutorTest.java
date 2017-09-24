@@ -7,11 +7,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.stubbing.OngoingStubbing;
 import pega.command.MergeCommand;
-import pega.io.IterableInputProvider;
-import pega.io.IterableOutputProvider;
+import pega.io.DataSource;
+import pega.io.DataDestination;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -23,18 +22,18 @@ import static org.mockito.Mockito.*;
 @RunWith(DataProviderRunner.class)
 public class MergeCommandExecutorTest {
 
-    private IterableInputProvider firstInputProvider;
-    private IterableInputProvider secondInputProvider;
-    private IterableOutputProvider outputProvider;
+    private DataSource firstInputProvider;
+    private DataSource secondInputProvider;
+    private DataDestination outputProvider;
     private MergeCommandExecutor executor = new MergeCommandExecutor();
     private MergeCommand command;
     public ArgumentCaptor<Integer> captor;
 
     @Before
     public void setUp() {
-        firstInputProvider = mock(IterableInputProvider.class);
-        secondInputProvider = mock(IterableInputProvider.class);
-        outputProvider = mock(IterableOutputProvider.class);
+        firstInputProvider = mock(DataSource.class);
+        secondInputProvider = mock(DataSource.class);
+        outputProvider = mock(DataDestination.class);
         command = new MergeCommand(firstInputProvider, secondInputProvider, outputProvider);
         captor = ArgumentCaptor.forClass(Integer.class);
     }
@@ -79,7 +78,7 @@ public class MergeCommandExecutorTest {
         };
     }
 
-    private void buildMock(IterableInputProvider provider, int[] input) throws IOException {
+    private void buildMock(DataSource provider, int[] input) throws IOException {
         OngoingStubbing<Integer> providerMock = when(provider.getNext());
         for (int item : input) {
             providerMock = providerMock.thenReturn(item);

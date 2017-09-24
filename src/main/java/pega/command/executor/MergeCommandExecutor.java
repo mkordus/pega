@@ -2,8 +2,8 @@ package pega.command.executor;
 
 import pega.command.Command;
 import pega.command.MergeCommand;
-import pega.io.IterableInputProvider;
-import pega.io.IterableOutputProvider;
+import pega.io.DataSource;
+import pega.io.DataDestination;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -23,9 +23,9 @@ public class MergeCommandExecutor implements CommandExecutor {
         int first;
         int second;
 
-        IterableInputProvider firstInput = mergeCommand.getFistInputProvider();
-        IterableInputProvider secondInput = mergeCommand.getSecondInputProvider();
-        IterableOutputProvider output = mergeCommand.getOutputProvider();
+        DataSource firstInput = mergeCommand.getFistDataSource();
+        DataSource secondInput = mergeCommand.getSecondDataSource();
+        DataDestination output = mergeCommand.getOutput();
 
         first = firstInput.getNext();
         second = secondInput.getNext();
@@ -65,7 +65,7 @@ public class MergeCommandExecutor implements CommandExecutor {
         output.close();
     }
 
-    private void writeUntilEnd(IterableInputProvider input, IterableOutputProvider output) throws IOException {
+    private void writeUntilEnd(DataSource input, DataDestination output) throws IOException {
         try {
             while (true) {
                 output.write(input.getNext());

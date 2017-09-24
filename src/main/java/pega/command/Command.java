@@ -1,7 +1,7 @@
 package pega.command;
 
-import pega.io.IterableInputProvider;
+import pega.io.DataSource;
 
 public interface Command {
-    IterableInputProvider getResult();
+    DataSource getResult();
 }

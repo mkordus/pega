@@ -3,9 +3,8 @@ package pega.command.builder;
 import pega.command.Command;
 import pega.command.MergeCommand;
 import pega.command.SortCommand;
-import pega.io.FileInputProvider;
-import pega.io.FileIterableOutputProvider;
-import pega.io.FileOutputProvider;
+import pega.io.FileDataSourceWithDefinedSize;
+import pega.io.FileDataDestination;
 import pega.util.TmpFileProvider;
 
 import java.io.File;
@@ -35,12 +34,12 @@ public class MergeSortCommandsBuilder {
 
         if (partsToSort == 1) {
             commands.add(new SortCommand(
-                new FileInputProvider(
+                new FileDataSourceWithDefinedSize(
                     inputFile,
                     0,
                     inputSize
                 ),
-                new FileOutputProvider(outputFile)
+                new FileDataDestination(outputFile)
             ));
         } else {
             List<Command> sortCommands = new ArrayList<>();
@@ -53,12 +52,12 @@ public class MergeSortCommandsBuilder {
                 }
 
                 sortCommands.add(new SortCommand(
-                    new FileInputProvider(
+                    new FileDataSourceWithDefinedSize(
                         inputFile,
                         startPosition,
                         inputSize
                     ),
-                    new FileOutputProvider(tmpFileProvider.create())
+                    new FileDataDestination(tmpFileProvider.create())
                 ));
             }
 
@@ -77,14 +76,14 @@ public class MergeSortCommandsBuilder {
             commands.add(new MergeCommand(
                 input.get(0).getResult(),
                 input.get(1).getResult(),
-                new FileIterableOutputProvider(outputFile)
+                new FileDataDestination(outputFile)
             ));
         } else {
             for (int i = 0; i < input.size() / 2; i++) {
                 commands.add(new MergeCommand(
                     input.get(i).getResult(),
                     input.get(i + 1).getResult(),
-                    new FileIterableOutputProvider(tmpFileProvider.create())
+                    new FileDataDestination(tmpFileProvider.create())
                 ));
             }
 

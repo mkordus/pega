@@ -2,7 +2,7 @@ package pega.io;
 
 import java.io.IOException;
 
-public interface IterableInputProvider {
+public interface DataSource {
     int getNext() throws IOException;
 
     void close() throws IOException;
