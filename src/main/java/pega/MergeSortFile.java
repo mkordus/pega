@@ -1,6 +1,8 @@
 package pega;
 
+import pega.command.Command;
 import pega.command.SortCommand;
+import pega.command.builder.MergeSortCommandsBuilder;
 import pega.command.executor.CommandBus;
 import pega.command.executor.CommandBus.ExecutorNotFoundException;
 import pega.command.executor.SortCommandExecutor;
@@ -10,6 +12,7 @@ import pega.io.FileOutputProvider;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 public class MergeSortFile {
 
@@ -17,6 +20,7 @@ public class MergeSortFile {
     private final File outputFile;
     private final int inputSize;
     private final CommandBus commandBus;
+    private final int maxMemory;
 
     public static void main(String... args) throws IOException, ExecutorNotFoundException {
         File inputFile = new File(args[0]);
@@ -33,29 +37,31 @@ public class MergeSortFile {
             commandBus,
             inputFile,
             outputFile,
-            inputSize
+            inputSize,
+            100
         );
 
         mergeSort.sort();
     }
 
-    public MergeSortFile(CommandBus commandBus, File inputFile, File outputFile, int inputSize) {
+    public MergeSortFile(CommandBus commandBus, File inputFile, File outputFile, int inputSize, int maxMemory) {
         this.commandBus = commandBus;
         this.inputFile = inputFile;
         this.outputFile = outputFile;
         this.inputSize = inputSize;
+        this.maxMemory = maxMemory;
     }
 
     public void sort() throws IOException, ExecutorNotFoundException {
-        SortCommand command = new SortCommand(
-            new FileInputProvider(
-                inputFile,
-                0,
-                inputSize
-            ),
-            new FileOutputProvider(outputFile)
-        );
+        List<Command> commands = new MergeSortCommandsBuilder(
+            maxMemory,
+            inputFile,
+            outputFile,
+            inputSize
+        ).build();
 
-        commandBus.execute(command);
+        for (Command command : commands) {
+            commandBus.execute(command);
+        }
     }
 }

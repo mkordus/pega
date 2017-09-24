@@ -46,7 +46,8 @@ public class MergeSortFileTest {
             commandBus,
             inputFile,
             outputFile,
-            inputFileSize
+            inputFileSize,
+            100
         );
 
         mergeSortFile.sort();
