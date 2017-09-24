@@ -17,12 +17,12 @@ dependencies {
 task randomFile(type:JavaExec) {
     dependsOn 'build'
 
-    String intFilePath = 'intFile'
+    String intFilePath = 'testRun/intFile'
     if (project.hasProperty('intFilePath')) {
         intFilePath = project.getProperty('intFilePath')
     }
 
-    String intFileSize = ((int)Math.pow(2, 28)).toString()
+    String intFileSize = ((int)Math.pow(2, 22)).toString()
     if (project.hasProperty('size')) {
         intFileSize = project.getProperty('size')
     }
@@ -30,5 +30,72 @@ task randomFile(type:JavaExec) {
     args = [intFilePath, intFileSize]
 
     main = 'pega.RandomIntFileGenerator'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task decodeRandomFile(type:JavaExec) {
+    dependsOn 'build'
+
+    String inputFilePath = 'testRun/intFile'
+    if (project.hasProperty('inputFilePath')) {
+        inputFilePath = project.getProperty('inputFilePath')
+    }
+
+    String outputFilePath = 'testRun/intFileDecoded'
+    if (project.hasProperty('outputFilePath')) {
+        outputFilePath = project.getProperty('outputFilePath')
+    }
+
+    args = [inputFilePath, outputFilePath]
+
+    main = 'pega.DecodeIntBinaryFile'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task decodeResultFile(type:JavaExec) {
+    dependsOn 'build'
+
+    String inputFilePath = 'testRun/intFileSorted'
+    if (project.hasProperty('inputFilePath')) {
+        inputFilePath = project.getProperty('inputFilePath')
+    }
+
+    String outputFilePath = 'testRun/intFileDecoded'
+    if (project.hasProperty('outputFilePath')) {
+        outputFilePath = project.getProperty('outputFilePath')
+    }
+
+    args = [inputFilePath, outputFilePath]
+
+    main = 'pega.DecodeIntBinaryFile'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task sortIntFile(type:JavaExec) {
+    dependsOn 'build'
+
+    String inputFilePath = 'testRun/intFile'
+    if (project.hasProperty('inputFilePath')) {
+        inputFilePath = project.getProperty('inputFilePath')
+    }
+
+    String intFileSize = ((int)Math.pow(2, 22)).toString()
+    if (project.hasProperty('size')) {
+        intFileSize = project.getProperty('size')
+    }
+
+    String outputFilePath = 'testRun/intFileSorted'
+    if (project.hasProperty('outputFilePath')) {
+        inputFilePath = project.getProperty('outputFilePath')
+    }
+
+    String maxMemory = '500000'
+    if (project.hasProperty('maxMemory')) {
+        maxMemory = project.getProperty('maxMemory')
+    }
+
+    args = [inputFilePath, intFileSize, outputFilePath, maxMemory]
+
+    main = 'pega.MergeSortFile'
     classpath = sourceSets.main.runtimeClasspath
 }

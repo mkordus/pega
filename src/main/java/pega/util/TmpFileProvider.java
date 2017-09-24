@@ -7,6 +7,6 @@ public class TmpFileProvider {
     private int tmpFileCounter = 1;
 
     public File create() {
-        return new File("tmp" + tmpFileCounter++);
+        return new File("testRun/tmp" + tmpFileCounter++);
     }
 }

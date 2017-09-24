@@ -1,13 +1,11 @@
 package pega;
 
 import pega.command.Command;
-import pega.command.SortCommand;
 import pega.command.builder.MergeSortCommandsBuilder;
 import pega.command.executor.CommandBus;
 import pega.command.executor.CommandBus.ExecutorNotFoundException;
+import pega.command.executor.MergeCommandExecutor;
 import pega.command.executor.SortCommandExecutor;
-import pega.io.FileInputProvider;
-import pega.io.FileOutputProvider;
 import pega.util.TmpFileProvider;
 
 import java.io.File;
@@ -32,7 +30,8 @@ public class MergeSortFile {
         Integer cores = Runtime.getRuntime().availableProcessors();
 
         CommandBus commandBus = new CommandBus(Arrays.asList(
-            new SortCommandExecutor()
+            new SortCommandExecutor(),
+            new MergeCommandExecutor()
         ));
 
         MergeSortFile mergeSort = new MergeSortFile(
@@ -40,7 +39,7 @@ public class MergeSortFile {
             inputFile,
             outputFile,
             inputSize,
-            100,
+            maxMemory,
             new TmpFileProvider()
         );
 

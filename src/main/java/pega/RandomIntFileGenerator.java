@@ -12,16 +12,12 @@ public class RandomIntFileGenerator {
             file.getAbsolutePath() + " [size: " + numberOfElements + "]"
         );
 
-        try (OutputStream outputStream = new FileOutputStream(file)) {
-            DataOutputStream output = new DataOutputStream(
-                new BufferedOutputStream(outputStream)
-            );
+        try (RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rw")) {
+            randomAccessFile.setLength(0);
 
             for (int index = 0; index < numberOfElements; index++) {
-                output.writeInt(ThreadLocalRandom.current().nextInt());
+                randomAccessFile.writeInt(ThreadLocalRandom.current().nextInt());
             }
-
-            output.flush();
         }
     }
 }
