@@ -20,7 +20,6 @@ public class FileIterableInputProvider implements IterableInputProvider {
         return input.readInt();
     }
 
-    @Override
     public void close() throws IOException {
         if (input != null) {
             input.close();
