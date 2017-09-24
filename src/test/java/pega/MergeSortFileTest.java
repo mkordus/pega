@@ -6,6 +6,9 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
+import pega.command.executor.CommandBus;
+import pega.command.executor.CommandBus.ExecutorNotFoundException;
+import pega.command.executor.SortCommandExecutor;
 
 import java.io.EOFException;
 import java.io.File;
@@ -23,6 +26,9 @@ public class MergeSortFileTest {
     public TemporaryFolder folder = new TemporaryFolder();
     private File inputFile;
     private File outputFile;
+    private final CommandBus commandBus = new CommandBus(Arrays.asList(
+        new SortCommandExecutor()
+    ));
 
     @Before
     public void setUp() throws IOException {
@@ -33,10 +39,11 @@ public class MergeSortFileTest {
     }
 
     @Test
-    public void testFileFittingIntoMemory() throws IOException {
+    public void testFileFittingIntoMemory() throws IOException, ExecutorNotFoundException {
         int inputFileSize = 100;
 
         MergeSortFile mergeSortFile = new MergeSortFile(
+            commandBus,
             inputFile,
             outputFile,
             inputFileSize

@@ -5,6 +5,7 @@ import org.junit.Test;
 import pega.command.Command;
 import pega.command.executor.CommandBus.ExecutorNotFoundException;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 import static org.mockito.BDDMockito.given;
@@ -27,7 +28,7 @@ public class CommandBusTest {
     }
 
     @Test
-    public void testFirstExecutorCanExecuteCommand() throws ExecutorNotFoundException {
+    public void testFirstExecutorCanExecuteCommand() throws ExecutorNotFoundException, IOException {
         given(first.canExecute(command)).willReturn(true);
         given(second.canExecute(command)).willReturn(false);
 
@@ -38,7 +39,7 @@ public class CommandBusTest {
     }
 
     @Test
-    public void testSecondExecutorCanExecuteCommand() throws ExecutorNotFoundException {
+    public void testSecondExecutorCanExecuteCommand() throws ExecutorNotFoundException, IOException {
         given(first.canExecute(command)).willReturn(false);
         given(second.canExecute(command)).willReturn(true);
 
@@ -49,7 +50,7 @@ public class CommandBusTest {
     }
 
     @Test(expected = ExecutorNotFoundException.class)
-    public void testNoMatchingExecutorFound() throws ExecutorNotFoundException {
+    public void testNoMatchingExecutorFound() throws ExecutorNotFoundException, IOException {
         given(first.canExecute(command)).willReturn(false);
         given(second.canExecute(command)).willReturn(false);
 
