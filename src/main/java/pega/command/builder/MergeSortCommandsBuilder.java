@@ -32,7 +32,7 @@ public class MergeSortCommandsBuilder {
     public List<Command> build() {
         ArrayList<Command> commands = new ArrayList<>();
 
-        int partsToSort = (int) Math.ceil(inputSize / maxMemory);
+        int partsToSort = (int) Math.ceil((double)inputSize / (double)maxMemory);
 
         if (partsToSort == 1) {
             commands.add(new SortCommand(
