@@ -4,7 +4,6 @@ import pega.command.Command;
 import pega.command.MergeCommand;
 import pega.command.SortCommand;
 import pega.io.FileInputProvider;
-import pega.io.FileIterableInputProvider;
 import pega.io.FileIterableOutputProvider;
 import pega.io.FileOutputProvider;
 import pega.util.TmpFileProvider;
@@ -44,13 +43,9 @@ public class MergeSortCommandsBuilder {
                 new FileOutputProvider(outputFile)
             ));
         } else {
-            List<SortCommand> sortCommands = new ArrayList<>();
-            List<File> sortCommandsOutputFiles = new ArrayList<>();
+            List<Command> sortCommands = new ArrayList<>();
 
             for (int index = 0; index < partsToSort; index++) {
-                File output = tmpFileProvider.create();
-                sortCommandsOutputFiles.add(output);
-
                 int startPosition = index * maxMemory;
                 int inputSize = this.inputSize - (index * maxMemory);
                 if (inputSize > maxMemory) {
@@ -63,49 +58,49 @@ public class MergeSortCommandsBuilder {
                         startPosition,
                         inputSize
                     ),
-                    new FileOutputProvider(output)
+                    new FileOutputProvider(tmpFileProvider.create())
                 ));
             }
 
             commands.addAll(sortCommands);
-            commands.addAll(createMergeCommands(sortCommandsOutputFiles));
+            commands.addAll(createMergeCommands(sortCommands));
         }
 
 
         return commands;
     }
 
-    private List<MergeCommand> createMergeCommands(List<File> inputs) {
-        List<MergeCommand> mergeCommands = new ArrayList<>();
+    private List<Command> createMergeCommands(List<Command> input) {
+        List<Command> commands = new ArrayList<>();
 
-        if (inputs.size() == 2) {
-            mergeCommands.add(new MergeCommand(
-                new FileIterableInputProvider(inputs.get(0)),
-                new FileIterableInputProvider(inputs.get(1)),
+        if (input.size() == 2) {
+            commands.add(new MergeCommand(
+                input.get(0).getResult(),
+                input.get(1).getResult(),
                 new FileIterableOutputProvider(outputFile)
             ));
         } else {
-            List<File> outputFiles = new ArrayList<>();
-            for (int i = 0; i < inputs.size() / 2; i++) {
-                File tmpOutputFile = tmpFileProvider.create();
-                outputFiles.add(tmpOutputFile);
-
-                mergeCommands.add(new MergeCommand(
-                    new FileIterableInputProvider(inputs.get(i)),
-                    new FileIterableInputProvider(inputs.get(i + 1)),
-                    new FileIterableOutputProvider(tmpOutputFile)
+            for (int i = 0; i < input.size() / 2; i++) {
+                commands.add(new MergeCommand(
+                    input.get(i).getResult(),
+                    input.get(i + 1).getResult(),
+                    new FileIterableOutputProvider(tmpFileProvider.create())
                 ));
             }
 
-            if (inputs.size() % 2 == 1) {
-                outputFiles.add(inputs.get(inputs.size() - 1));
+            List<Command> toMerge;
+            if (input.size() % 2 == 1) {
+                toMerge = new ArrayList<>(commands);
+                toMerge.add(input.get(input.size() - 1));
+            } else {
+                toMerge = commands;
             }
 
-            if (outputFiles.size() > 1) {
-                mergeCommands.addAll(createMergeCommands(outputFiles));
+            if (toMerge.size() > 1) {
+                commands.addAll(createMergeCommands(toMerge));
             }
         }
 
-        return mergeCommands;
+        return commands;
     }
 }

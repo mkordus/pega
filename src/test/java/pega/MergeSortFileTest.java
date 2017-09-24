@@ -55,7 +55,8 @@ public class MergeSortFileTest {
             outputFile,
             inputFileSize,
             100,
-            tmpFileProvider
+            tmpFileProvider,
+            1
         );
 
         mergeSortFile.sort();
@@ -80,7 +81,8 @@ public class MergeSortFileTest {
             outputFile,
             inputFileSize,
             maxMemory,
-            tmpFileProvider
+            tmpFileProvider,
+            1
         );
 
         mergeSortFile.sort();
@@ -107,7 +109,8 @@ public class MergeSortFileTest {
             outputFile,
             inputFileSize,
             maxMemory,
-            tmpFileProvider
+            tmpFileProvider,
+            1
         );
 
         mergeSortFile.sort();

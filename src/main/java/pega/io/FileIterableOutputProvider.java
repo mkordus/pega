@@ -29,4 +29,9 @@ public class FileIterableOutputProvider implements IterableOutputProvider {
             output.close();
         }
     }
+
+    @Override
+    public IterableInputProvider createInput() {
+        return new FileIterableInputProvider(file);
+    }
 }

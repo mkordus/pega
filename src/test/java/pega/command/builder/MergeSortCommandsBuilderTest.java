@@ -94,7 +94,7 @@ public class MergeSortCommandsBuilderTest {
             tmpFileProvider
         ).build();
 
-        assertTrue(result.size() == 5);
+        assertEquals(5, result.size());
         assertEquals(result.get(0).getClass(), SortCommand.class);
         assertEquals(result.get(1).getClass(), SortCommand.class);
         assertEquals(result.get(2).getClass(), SortCommand.class);

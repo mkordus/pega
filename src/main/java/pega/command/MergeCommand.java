@@ -26,4 +26,9 @@ public class MergeCommand implements Command {
     public IterableOutputProvider getOutputProvider() {
         return outputProvider;
     }
+
+    @Override
+    public IterableInputProvider getResult() {
+        return outputProvider.createInput();
+    }
 }

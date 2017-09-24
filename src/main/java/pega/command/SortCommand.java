@@ -1,6 +1,7 @@
 package pega.command;
 
 import pega.io.InputProvider;
+import pega.io.IterableInputProvider;
 import pega.io.OutputProvider;
 
 public class SortCommand implements Command {
@@ -26,5 +27,10 @@ public class SortCommand implements Command {
 
     public OutputProvider getOutputProvider() {
         return outputProvider;
+    }
+
+    @Override
+    public IterableInputProvider getResult() {
+        return outputProvider.createInput();
     }
 }

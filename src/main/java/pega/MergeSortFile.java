@@ -18,16 +18,16 @@ public class MergeSortFile {
     private final File inputFile;
     private final File outputFile;
     private final int inputSize;
-    private final CommandBus commandBus;
     private final int maxMemory;
-    private TmpFileProvider tmpFileProvider;
+    private final int numberOfThreads;
+    private final CommandBus commandBus;
+    private final TmpFileProvider tmpFileProvider;
 
     public static void main(String... args) throws IOException, ExecutorNotFoundException {
         File inputFile = new File(args[0]);
         Integer inputSize = Integer.valueOf(args[1]);
         File outputFile = new File(args[2]);
         Integer maxMemory = Integer.valueOf(args[3]);
-        Integer cores = Runtime.getRuntime().availableProcessors();
 
         CommandBus commandBus = new CommandBus(Arrays.asList(
             new SortCommandExecutor(),
@@ -40,24 +40,26 @@ public class MergeSortFile {
             outputFile,
             inputSize,
             maxMemory,
-            new TmpFileProvider()
+            new TmpFileProvider(),
+            4
         );
 
         mergeSort.sort();
     }
 
-    public MergeSortFile(CommandBus commandBus, File inputFile, File outputFile, int inputSize, int maxMemory, TmpFileProvider tmpFileProvider) {
+    public MergeSortFile(CommandBus commandBus, File inputFile, File outputFile, int inputSize, int maxMemory, TmpFileProvider tmpFileProvider, int numberOfThreads) {
         this.commandBus = commandBus;
         this.inputFile = inputFile;
         this.outputFile = outputFile;
         this.inputSize = inputSize;
         this.maxMemory = maxMemory;
         this.tmpFileProvider = tmpFileProvider;
+        this.numberOfThreads = numberOfThreads;
     }
 
     public void sort() throws IOException, ExecutorNotFoundException {
         List<Command> commands = new MergeSortCommandsBuilder(
-            maxMemory,
+            maxMemory / numberOfThreads,
             inputFile,
             outputFile,
             inputSize,
