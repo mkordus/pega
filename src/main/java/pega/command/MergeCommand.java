@@ -1,15 +1,15 @@
 package pega.command;
 
 import pega.io.IterableInputProvider;
-import pega.io.OutputProvider;
+import pega.io.IterableOutputProvider;
 
 public class MergeCommand implements Command {
 
     private IterableInputProvider fistInputProvider;
     private IterableInputProvider secondInputProvider;
-    private OutputProvider outputProvider;
+    private IterableOutputProvider outputProvider;
 
-    public MergeCommand(IterableInputProvider fistInputProvider, IterableInputProvider secondInputProvider, OutputProvider outputProvider) {
+    public MergeCommand(IterableInputProvider fistInputProvider, IterableInputProvider secondInputProvider, IterableOutputProvider outputProvider) {
         this.fistInputProvider = fistInputProvider;
         this.secondInputProvider = secondInputProvider;
         this.outputProvider = outputProvider;
@@ -23,7 +23,7 @@ public class MergeCommand implements Command {
         return secondInputProvider;
     }
 
-    public OutputProvider getOutputProvider() {
+    public IterableOutputProvider getOutputProvider() {
         return outputProvider;
     }
 }
