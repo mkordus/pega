@@ -82,8 +82,8 @@ public class MergeSortCommandsBuilder {
 
         if (inputs.size() == 2) {
             mergeCommands.add(new MergeCommand(
-                new FileIterableInputProvider(inputs.get(0), 0),
-                new FileIterableInputProvider(inputs.get(1), 0),
+                new FileIterableInputProvider(inputs.get(0)),
+                new FileIterableInputProvider(inputs.get(1)),
                 new FileIterableOutputProvider(outputFile)
             ));
         } else {
@@ -93,8 +93,8 @@ public class MergeSortCommandsBuilder {
                 outputFiles.add(tmpOutputFile);
 
                 mergeCommands.add(new MergeCommand(
-                    new FileIterableInputProvider(inputs.get(i), 0),
-                    new FileIterableInputProvider(inputs.get(i + 1), 0),
+                    new FileIterableInputProvider(inputs.get(i)),
+                    new FileIterableInputProvider(inputs.get(i + 1)),
                     new FileIterableOutputProvider(tmpOutputFile)
                 ));
             }

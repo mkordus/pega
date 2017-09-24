@@ -41,10 +41,7 @@ public class FileIterableInputProviderTest {
         int[] output = new int[10];
         int index = 0;
 
-        try (FileIterableInputProvider input = new FileIterableInputProvider(
-            file,
-            0
-        )) {
+        try (FileIterableInputProvider input = new FileIterableInputProvider( file )) {
             while(true) {
                 output[index++] = input.getNext();
             }
