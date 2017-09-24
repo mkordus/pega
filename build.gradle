@@ -60,7 +60,7 @@ task decodeResultFile(type:JavaExec) {
         inputFilePath = project.getProperty('inputFilePath')
     }
 
-    String outputFilePath = 'testRun/intFileDecoded'
+    String outputFilePath = 'testRun/intFileSortedDecoded'
     if (project.hasProperty('outputFilePath')) {
         outputFilePath = project.getProperty('outputFilePath')
     }
