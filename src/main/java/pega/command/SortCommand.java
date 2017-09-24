@@ -3,7 +3,7 @@ package pega.command;
 import pega.io.InputProvider;
 import pega.io.OutputProvider;
 
-public class SortCommand {
+public class SortCommand implements Command {
 
     private InputProvider inputProvider;
     private OutputProvider outputProvider;

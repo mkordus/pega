@@ -3,7 +3,7 @@ package pega.command;
 import pega.io.IterableInputProvider;
 import pega.io.OutputProvider;
 
-public class MergeCommand {
+public class MergeCommand implements Command {
 
     private IterableInputProvider fistInputProvider;
     private IterableInputProvider secondInputProvider;
