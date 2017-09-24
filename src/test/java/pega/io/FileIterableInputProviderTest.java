@@ -37,7 +37,7 @@ public class FileIterableInputProviderTest {
     }
 
     @Test
-    public void testHappyPath() throws Exception {
+    public void testGetAll() throws Exception {
         int[] output = new int[10];
         int index = 0;
 
@@ -54,5 +54,49 @@ public class FileIterableInputProviderTest {
             IntStream.rangeClosed(1, 10).toArray(),
             output
         );
+    }
+
+    @Test
+    public void testGetDataToMiddle() throws IOException {
+        FileIterableInputProvider provider = new FileIterableInputProvider(
+            file,
+            0,
+            5
+        );
+
+        for (int element : new int[] {1, 2 ,3 ,4 ,5}) {
+            assertEquals(element, provider.getNext());
+        }
+
+        boolean exceptionWasThrown = false;
+        try {
+            provider.getNext();
+        } catch (EOFException ignored) {
+            exceptionWasThrown = true;
+        }
+
+        assertTrue(exceptionWasThrown);
+    }
+
+    @Test
+    public void testGetDataFromMiddle() throws IOException {
+        FileIterableInputProvider provider = new FileIterableInputProvider(
+            file,
+            5,
+            5
+        );
+
+        for (int element : new int[]{6, 7, 8, 9, 10}) {
+            assertEquals(element, provider.getNext());
+        }
+
+        boolean exceptionWasThrown = false;
+        try {
+            provider.getNext();
+        } catch (EOFException ignored) {
+            exceptionWasThrown = true;
+        }
+
+        assertTrue(exceptionWasThrown);
     }
 }
