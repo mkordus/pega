@@ -22,6 +22,7 @@ public class MergeSortFile {
     private final int inputSize;
     private final CommandBus commandBus;
     private final int maxMemory;
+    private TmpFileProvider tmpFileProvider;
 
     public static void main(String... args) throws IOException, ExecutorNotFoundException {
         File inputFile = new File(args[0]);
@@ -39,18 +40,20 @@ public class MergeSortFile {
             inputFile,
             outputFile,
             inputSize,
-            100
+            100,
+            new TmpFileProvider()
         );
 
         mergeSort.sort();
     }
 
-    public MergeSortFile(CommandBus commandBus, File inputFile, File outputFile, int inputSize, int maxMemory) {
+    public MergeSortFile(CommandBus commandBus, File inputFile, File outputFile, int inputSize, int maxMemory, TmpFileProvider tmpFileProvider) {
         this.commandBus = commandBus;
         this.inputFile = inputFile;
         this.outputFile = outputFile;
         this.inputSize = inputSize;
         this.maxMemory = maxMemory;
+        this.tmpFileProvider = tmpFileProvider;
     }
 
     public void sort() throws IOException, ExecutorNotFoundException {
@@ -59,7 +62,7 @@ public class MergeSortFile {
             inputFile,
             outputFile,
             inputSize,
-            new TmpFileProvider()
+            tmpFileProvider
         ).build();
 
         for (Command command : commands) {
