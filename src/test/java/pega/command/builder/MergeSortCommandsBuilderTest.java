@@ -1,20 +1,30 @@
 package pega.command.builder;
 
+import org.junit.Before;
 import org.junit.Test;
 import pega.command.Command;
 import pega.command.MergeCommand;
 import pega.command.SortCommand;
+import pega.util.TmpFileProvider;
 
 import java.io.File;
 import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class MergeSortCommandsBuilderTest {
 
     private File inputFile = mock(File.class);
     private File outputFile = mock(File.class);
+    private TmpFileProvider tmpFileProvider;
+
+    @Before
+    public void setUp() {
+        tmpFileProvider = mock(TmpFileProvider.class);
+        when(tmpFileProvider.create()).thenReturn(mock(File.class ));
+    }
 
     @Test
     public void itShouldReturnSortCommandIfInputFitsIntoMemory() {
@@ -25,7 +35,8 @@ public class MergeSortCommandsBuilderTest {
             maxMemory,
             inputFile,
             outputFile,
-            inputSize
+            inputSize,
+            tmpFileProvider
         );
 
         List<? extends Command> result = builder.build();
@@ -43,7 +54,8 @@ public class MergeSortCommandsBuilderTest {
             maxMemory,
             inputFile,
             outputFile,
-            inputSize
+            inputSize,
+            tmpFileProvider
         ).build();
 
         assertTrue(result.size() >= 2);
@@ -60,7 +72,8 @@ public class MergeSortCommandsBuilderTest {
             maxMemory,
             inputFile,
             outputFile,
-            inputSize
+            inputSize,
+            tmpFileProvider
         ).build();
 
         assertTrue(result.size() == 3);
@@ -77,7 +90,8 @@ public class MergeSortCommandsBuilderTest {
             maxMemory,
             inputFile,
             outputFile,
-            inputSize
+            inputSize,
+            tmpFileProvider
         ).build();
 
         assertTrue(result.size() == 5);
@@ -97,7 +111,8 @@ public class MergeSortCommandsBuilderTest {
             maxMemory,
             inputFile,
             outputFile,
-            inputSize
+            inputSize,
+            tmpFileProvider
         ).build();
 
         assertTrue(result.size() == 7);

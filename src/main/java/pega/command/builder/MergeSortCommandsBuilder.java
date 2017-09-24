@@ -7,6 +7,7 @@ import pega.io.FileInputProvider;
 import pega.io.FileIterableInputProvider;
 import pega.io.FileIterableOutputProvider;
 import pega.io.FileOutputProvider;
+import pega.util.TmpFileProvider;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -18,13 +19,14 @@ public class MergeSortCommandsBuilder {
     private File inputFile;
     private File outputFile;
     private int inputSize;
-    private int tmpFileCounter = 1;
+    private TmpFileProvider tmpFileProvider;
 
-    public MergeSortCommandsBuilder(int maxMemory, File inputFile, File outputFile, int inputSize) {
+    public MergeSortCommandsBuilder(int maxMemory, File inputFile, File outputFile, int inputSize, TmpFileProvider tmpFileProvider) {
         this.maxMemory = maxMemory;
         this.inputFile = inputFile;
         this.outputFile = outputFile;
         this.inputSize = inputSize;
+        this.tmpFileProvider = tmpFileProvider;
     }
 
     public List<Command> build() {
@@ -46,7 +48,7 @@ public class MergeSortCommandsBuilder {
             List<File> sortCommandsOutputFiles = new ArrayList<>();
 
             for (int index = 0; index < partsToSort; index++) {
-                File output = createTmpFile();
+                File output = tmpFileProvider.create();
                 sortCommandsOutputFiles.add(output);
 
                 int startPosition = index * maxMemory;
@@ -73,10 +75,6 @@ public class MergeSortCommandsBuilder {
         return commands;
     }
 
-    private File createTmpFile() {
-        return new File("tmp" + tmpFileCounter++);
-    }
-
     private List<MergeCommand> createMergeCommands(List<File> inputs) {
         List<MergeCommand> mergeCommands = new ArrayList<>();
 
@@ -89,7 +87,7 @@ public class MergeSortCommandsBuilder {
         } else {
             List<File> outputFiles = new ArrayList<>();
             for (int i = 0; i < inputs.size() / 2; i++) {
-                File tmpOutputFile = createTmpFile();
+                File tmpOutputFile = tmpFileProvider.create();
                 outputFiles.add(tmpOutputFile);
 
                 mergeCommands.add(new MergeCommand(

@@ -8,6 +8,7 @@ import pega.command.executor.CommandBus.ExecutorNotFoundException;
 import pega.command.executor.SortCommandExecutor;
 import pega.io.FileInputProvider;
 import pega.io.FileOutputProvider;
+import pega.util.TmpFileProvider;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,7 +58,8 @@ public class MergeSortFile {
             maxMemory,
             inputFile,
             outputFile,
-            inputSize
+            inputSize,
+            new TmpFileProvider()
         ).build();
 
         for (Command command : commands) {
