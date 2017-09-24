@@ -4,6 +4,7 @@ import pega.command.Command;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class CommandBus {
 
@@ -13,7 +14,7 @@ public class CommandBus {
         this.executors = executors;
     }
 
-    public void execute(Command command) throws ExecutorNotFoundException, IOException {
+    public void execute(Command command) throws ExecutorNotFoundException, IOException, ExecutionException, InterruptedException {
         for (CommandExecutor executor : executors) {
             if (executor.canExecute(command)) {
                 executor.execute(command);

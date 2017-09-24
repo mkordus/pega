@@ -7,6 +7,7 @@ import pega.io.DataDestination;
 
 import java.io.EOFException;
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 public class MergeCommandExecutor implements CommandExecutor {
 
@@ -16,7 +17,7 @@ public class MergeCommandExecutor implements CommandExecutor {
     }
 
     @Override
-    public void execute(Command command) throws IOException {
+    public void execute(Command command) throws IOException, ExecutionException, InterruptedException {
         MergeCommand mergeCommand = (MergeCommand) command;
         boolean firstHasElements = true;
         boolean secondHasElements = true;
@@ -65,7 +66,7 @@ public class MergeCommandExecutor implements CommandExecutor {
         output.close();
     }
 
-    private void writeUntilEnd(DataSource input, DataDestination output) throws IOException {
+    private void writeUntilEnd(DataSource input, DataDestination output) throws IOException, ExecutionException, InterruptedException {
         try {
             while (true) {
                 output.write(input.getNext());

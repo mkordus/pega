@@ -9,6 +9,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.OngoingStubbing;
 import pega.command.executor.CommandBus;
 import pega.command.executor.CommandBus.ExecutorNotFoundException;
+import pega.command.executor.ConcurrentCommandsExecutor;
 import pega.command.executor.MergeCommandExecutor;
 import pega.command.executor.SortCommandExecutor;
 import pega.util.TmpFileProvider;
@@ -18,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.IntStream;
 
 import static org.junit.Assert.*;
@@ -34,6 +36,7 @@ public class MergeSortFileTest {
         new SortCommandExecutor(),
         new MergeCommandExecutor()
     ));
+    private final ConcurrentCommandsExecutor executor = new ConcurrentCommandsExecutor(1, commandBus);
     private TmpFileProvider tmpFileProvider;
 
     @Before
@@ -45,12 +48,12 @@ public class MergeSortFileTest {
     }
 
     @Test
-    public void testFileFittingIntoMemory() throws IOException, ExecutorNotFoundException {
+    public void testFileFittingIntoMemory() throws IOException, ExecutorNotFoundException, ExecutionException, InterruptedException {
         int inputFileSize = 100;
         fillInputFile(inputFileSize);
 
         MergeSortFile mergeSortFile = new MergeSortFile(
-            commandBus,
+            executor,
             inputFile,
             outputFile,
             inputFileSize,
@@ -68,7 +71,7 @@ public class MergeSortFileTest {
     }
 
     @Test
-    public void testFileTwiceAsLargeAsMemory() throws IOException, ExecutorNotFoundException {
+    public void testFileTwiceAsLargeAsMemory() throws IOException, ExecutorNotFoundException, ExecutionException, InterruptedException {
         int inputFileSize = 100;
         fillInputFile(inputFileSize);
         int maxMemory = 50;
@@ -76,7 +79,7 @@ public class MergeSortFileTest {
         createTmpFiles();
 
         MergeSortFile mergeSortFile = new MergeSortFile(
-            commandBus,
+            executor,
             inputFile,
             outputFile,
             inputFileSize,
@@ -96,7 +99,7 @@ public class MergeSortFileTest {
     }
 
     @Test
-    public void testFileThreeTimesAsLargeAsMemory() throws IOException, ExecutorNotFoundException {
+    public void testFileThreeTimesAsLargeAsMemory() throws IOException, ExecutorNotFoundException, ExecutionException, InterruptedException {
         int inputFileSize = 150;
         int maxMemory = 50;
         fillInputFile(inputFileSize);
@@ -104,7 +107,7 @@ public class MergeSortFileTest {
         createTmpFiles();
 
         MergeSortFile mergeSortFile = new MergeSortFile(
-            commandBus,
+            executor,
             inputFile,
             outputFile,
             inputFileSize,

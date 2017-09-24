@@ -3,11 +3,14 @@ package pega.io;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 
 public class FileDataDestination implements DataDestination {
 
     private final File file;
     private RandomAccessFile output;
+    private CompletableFuture<Object> future = new CompletableFuture<>();
 
     public FileDataDestination(File file) {
         this.file = file;
@@ -26,12 +29,26 @@ public class FileDataDestination implements DataDestination {
     @Override
     public void close() throws IOException {
         if (output != null) {
+            future.complete(new Object());
             output.close();
         }
     }
 
     @Override
     public DataSource createDataSource() {
-        return new FileDataSource(file);
+        return new FileDataSource(this);
+    }
+
+    File getFile() {
+        return file;
+    }
+
+    Future<Object> getFuture() {
+        return future;
+    }
+
+    @Override
+    public String toString() {
+        return "FileDataDestination: " + file.getPath();
     }
 }

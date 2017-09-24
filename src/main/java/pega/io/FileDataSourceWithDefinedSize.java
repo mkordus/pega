@@ -45,4 +45,9 @@ public class FileDataSourceWithDefinedSize implements DataSourceWithDefinedSize 
     public int getSize() {
         return numberOfElementsToRead;
     }
+
+    @Override
+    public String toString() {
+        return "FileDataSourceWithDefinedSize: " + file.getPath() + " startsAt: " + startPosition + " elements: " + numberOfElementsToRead;
+    }
 }

@@ -19,7 +19,13 @@ public class MergeSortCommandsBuilder {
     private int inputSize;
     private TmpFileProvider tmpFileProvider;
 
-    public MergeSortCommandsBuilder(int maxMemory, File inputFile, File outputFile, int inputSize, TmpFileProvider tmpFileProvider) {
+    public MergeSortCommandsBuilder(
+        int maxMemory,
+        File inputFile,
+        File outputFile,
+        int inputSize,
+        TmpFileProvider tmpFileProvider
+    ) {
         this.maxMemory = maxMemory;
         this.inputFile = inputFile;
         this.outputFile = outputFile;
@@ -64,7 +70,6 @@ public class MergeSortCommandsBuilder {
             commands.addAll(sortCommands);
             commands.addAll(createMergeCommands(sortCommands));
         }
-
 
         return commands;
     }

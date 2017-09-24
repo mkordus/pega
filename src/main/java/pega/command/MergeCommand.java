@@ -31,4 +31,10 @@ public class MergeCommand implements Command {
     public DataSource getResult() {
         return output.createDataSource();
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "\n\t" + fistDataSource + "\n\t" +
+            secondDataSource + "\n\t" + output;
+    }
 }

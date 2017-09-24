@@ -15,6 +15,7 @@ import pega.io.DataDestination;
 import java.io.EOFException;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -78,7 +79,7 @@ public class MergeCommandExecutorTest {
         };
     }
 
-    private void buildMock(DataSource provider, int[] input) throws IOException {
+    private void buildMock(DataSource provider, int[] input) throws IOException, ExecutionException, InterruptedException {
         OngoingStubbing<Integer> providerMock = when(provider.getNext());
         for (int item : input) {
             providerMock = providerMock.thenReturn(item);

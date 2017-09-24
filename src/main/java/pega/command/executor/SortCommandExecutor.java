@@ -7,6 +7,7 @@ import pega.io.DataDestination;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
 
 public class SortCommandExecutor implements CommandExecutor {
 
@@ -15,7 +16,7 @@ public class SortCommandExecutor implements CommandExecutor {
         return command instanceof SortCommand;
     }
 
-    public void execute(Command command) throws IOException {
+    public void execute(Command command) throws IOException, ExecutionException, InterruptedException {
         SortCommand sortCommand = (SortCommand) command;
 
         DataSourceWithDefinedSize input = sortCommand

@@ -33,4 +33,9 @@ public class SortCommand implements Command {
     public DataSource getResult() {
         return output.createDataSource();
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "\n\t" + input + "\n\t" + output;
+    }
 }

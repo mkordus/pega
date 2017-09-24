@@ -89,7 +89,7 @@ task sortIntFile(type:JavaExec) {
         inputFilePath = project.getProperty('outputFilePath')
     }
 
-    String maxMemory = '500000'
+    String maxMemory = '1000000'
     if (project.hasProperty('maxMemory')) {
         maxMemory = project.getProperty('maxMemory')
     }
