@@ -86,8 +86,8 @@ public class MergeSortCommandsBuilder {
         } else {
             for (int i = 0; i < input.size() / 2; i++) {
                 commands.add(new MergeCommand(
-                    input.get(i).getResult(),
-                    input.get(i + 1).getResult(),
+                    input.get(i * 2).getResult(),
+                    input.get((i * 2) + 1).getResult(),
                     new FileDataDestination(tmpFileProvider.create())
                 ));
             }
