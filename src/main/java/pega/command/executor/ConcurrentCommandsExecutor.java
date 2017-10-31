@@ -25,11 +25,7 @@ public class ConcurrentCommandsExecutor {
         for (Command command : commands) {
             executorService.execute(() -> {
                 try {
-                    System.out.println("Starting " + command);
-
                     commandBus.execute(command);
-
-                    System.out.println("Ended " + command);
                 } catch (ExecutorNotFoundException | IOException |
                     ExecutionException | InterruptedException e
                 ) {
