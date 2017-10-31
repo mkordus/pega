@@ -10,7 +10,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.stubbing.OngoingStubbing;
 import pega.command.SortCommand;
 import pega.io.DataSource;
-import pega.io.DataSourceWithDefinedSize;
 import pega.io.DataDestination;
 
 import java.io.EOFException;
@@ -25,14 +24,14 @@ import static org.mockito.Mockito.*;
 public class SortCommandExecutorTest {
 
     public ArgumentCaptor<Integer> captor;
-    private DataSourceWithDefinedSize inputProvider;
+    private DataSource inputProvider;
     private DataDestination outputProvider;
     private SortCommandExecutor executor = new SortCommandExecutor();
     private SortCommand command;
 
     @Before
     public void setUp() {
-        inputProvider = mock(DataSourceWithDefinedSize.class);
+        inputProvider = mock(DataSource.class);
         outputProvider = mock(DataDestination.class);
         command = new SortCommand(inputProvider, outputProvider);
         captor = ArgumentCaptor.forClass(Integer.class);

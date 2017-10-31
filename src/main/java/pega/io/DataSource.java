@@ -7,4 +7,6 @@ public interface DataSource {
     int getNext() throws IOException, ExecutionException, InterruptedException;
 
     void close() throws IOException;
+
+    Integer getSize();
 }

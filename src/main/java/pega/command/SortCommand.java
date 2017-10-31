@@ -1,16 +1,15 @@
 package pega.command;
 
 import pega.io.DataSource;
-import pega.io.DataSourceWithDefinedSize;
 import pega.io.DataDestination;
 
 public class SortCommand implements Command {
 
-    private DataSourceWithDefinedSize input;
+    private DataSource input;
     private DataDestination output;
 
     public SortCommand(
-        DataSourceWithDefinedSize input,
+        DataSource input,
         DataDestination output
     ) {
         if (input == null || output == null) {
@@ -21,7 +20,7 @@ public class SortCommand implements Command {
         this.output = output;
     }
 
-    public DataSourceWithDefinedSize getInputProvider() {
+    public DataSource getInputProvider() {
         return input;
     }
 

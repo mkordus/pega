@@ -3,7 +3,7 @@ package pega.command.builder;
 import pega.command.Command;
 import pega.command.MergeCommand;
 import pega.command.SortCommand;
-import pega.io.FileDataSourceWithDefinedSize;
+import pega.io.FileDataSource;
 import pega.io.FileDataDestination;
 import pega.util.TmpFileProvider;
 
@@ -40,7 +40,7 @@ public class MergeSortCommandsBuilder {
 
         if (partsToSort == 1) {
             commands.add(new SortCommand(
-                new FileDataSourceWithDefinedSize(
+                new FileDataSource(
                     inputFile,
                     0,
                     inputSize
@@ -58,7 +58,7 @@ public class MergeSortCommandsBuilder {
                 }
 
                 sortCommands.add(new SortCommand(
-                    new FileDataSourceWithDefinedSize(
+                    new FileDataSource(
                         inputFile,
                         startPosition,
                         inputSize

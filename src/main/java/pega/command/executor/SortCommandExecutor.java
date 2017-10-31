@@ -2,7 +2,7 @@ package pega.command.executor;
 
 import pega.command.Command;
 import pega.command.SortCommand;
-import pega.io.DataSourceWithDefinedSize;
+import pega.io.DataSource;
 import pega.io.DataDestination;
 
 import java.io.IOException;
@@ -19,8 +19,7 @@ public class SortCommandExecutor implements CommandExecutor {
     public void execute(Command command) throws IOException, ExecutionException, InterruptedException {
         SortCommand sortCommand = (SortCommand) command;
 
-        DataSourceWithDefinedSize input = sortCommand
-            .getInputProvider();
+        DataSource input = sortCommand.getInputProvider();
         DataDestination output = sortCommand.getOutput();
 
         int size = input.getSize();

@@ -9,6 +9,7 @@ import java.util.concurrent.Future;
 public class FileDataDestination implements DataDestination {
 
     private final File file;
+    private int size;
     private RandomAccessFile output;
     private CompletableFuture<Object> future = new CompletableFuture<>();
 
@@ -24,6 +25,7 @@ public class FileDataDestination implements DataDestination {
         }
 
         output.writeInt(element);
+        size++;
     }
 
     @Override
@@ -37,6 +39,11 @@ public class FileDataDestination implements DataDestination {
     @Override
     public DataSource createDataSource() {
         return new FileDataSource(this);
+    }
+
+    @Override
+    public int getSize() {
+        return size;
     }
 
     File getFile() {
