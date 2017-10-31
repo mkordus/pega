@@ -12,6 +12,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile 'org.mockito:mockito-core:2.7.22'
     testCompile group: 'com.tngtech.java', name: 'junit-dataprovider', version: '1.10.0'
+    testCompile 'org.junit.jupiter:junit-jupiter-api:5.0.0-M3'
 }
 
 task randomFile(type:JavaExec) {
